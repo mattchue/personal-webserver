@@ -1,0 +1,30 @@
+body {
+  position: relative;
+  background-color: rgb(62, 163, 201);
+  color: white !important;
+  font-size: 2.5vmin !important;
+}
+.container {
+  position: absolute !important;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}
+.head.top {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 4.5vmin;
+}
+.head.shipped {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  font-size: 3.5vmin;
+}
+.item {
+  text-align: center;
+}
+a {
+  text-decoration: underline;
+  color: white !important;
+}

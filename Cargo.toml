@@ -5,4 +5,5 @@ authors = ["Matt Prestlien <mprestlien@scramsystems.com>"]
 edition = "2018"
 
 [dependencies]
-actix-web = "1.0.0"
+rocket = "0.4.1"
+rocket_contrib = "0.4.1"

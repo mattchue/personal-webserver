@@ -1,12 +1,10 @@
-extern crate actix_web;
-use actix_web::{web, App, HttpServer, Responder};
+#![feature(proc_macro_hygiene, decl_macro)]
+#[macro_use] extern crate rocket;
 
-fn index(info: web::Path<(String, u32)>) -> impl Responder {
-    format!("Hello {}! id:{}", info.0, info.1)
-}
+use rocket_contrib::serve::StaticFiles;
 
-fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().service(web::resource("/{name}/{id}").to(index)))
-        .bind("127.0.0.1:8080")?
-        .run()
+fn main() {
+    rocket::ignite()
+        .mount("/", StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")))
+        .launch();
 }

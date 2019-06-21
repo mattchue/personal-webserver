@@ -21,12 +21,16 @@ steps:
         '-t',
         'gcr.io/personal-webserver-242817/personal-webserver-intermediate',
         '--target',
-        'build'
+        'build',
         '.',
       ]
   # push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/personal-webserver-242817/personal-webserver-intermediate']
+    args:
+      [
+        'push',
+        'gcr.io/personal-webserver-242817/personal-webserver-intermediate',
+      ]
   # build the container image
   - name: 'gcr.io/cloud-builders/docker'
     args:

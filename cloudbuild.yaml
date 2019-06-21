@@ -13,7 +13,7 @@ steps:
       - '-c'
       - |
         docker pull gcr.io/personal-webserver-242817/personal-webserver:latest || exit 0
-  # build the intermediate image
+  # build the intermediate image (only needed if dependencies change)
   # - name: 'gcr.io/cloud-builders/docker'
   #   args:
   #     [

@@ -1,4 +1,11 @@
 steps:
+  # get prior image
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        docker pull gcr.io/personal-webserver-242817/personal-webserver:latest || exit 0
   # build the container image
   - name: 'gcr.io/cloud-builders/docker'
     args:
@@ -6,6 +13,8 @@ steps:
         'build',
         '-t',
         'gcr.io/personal-webserver-242817/personal-webserver',
+        '--cache-from',
+        'gcr.io/personal-webserver-242817/personal-webserve:latest',
         '.',
       ]
     # push the container image to Container Registry

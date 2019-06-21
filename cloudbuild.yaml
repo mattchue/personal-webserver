@@ -5,7 +5,7 @@ steps:
     args:
       - '-c'
       - |
-        docker pull gcr.io/$PROJECT_ID/[IMAGE_NAME]:latest || exit 0
+        docker pull gcr.io/personal-webserver-242817/personal-webserver:latest || exit 0
   # build the container image
   - name: 'gcr.io/cloud-builders/docker'
     args:

@@ -12,7 +12,7 @@ COPY ./src ./src
 COPY ./config/run ./
 RUN cargo build --release
 
-FROM debian:8-slim
+FROM debian:8-slim as run
 
 COPY --from=build /personal-webserver/run ./
 COPY --from=build /personal-webserver/target/release/personal-webserver ./target/release/personal-webserver

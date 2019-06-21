@@ -1,13 +1,22 @@
-FROM rust:latest
+FROM rust:latest as build
 
-WORKDIR ./
-COPY . .
+RUN USER=root cargo new --bin personal-webserver
+WORKDIR /personal-webserver
 
-RUN rustup self update \
-  && rustup toolchain uninstall nightly \
-  && rustup toolchain install nightly \
-  && rustup default nightly
+COPY config/rust-toolchain Cargo.lock Cargo.toml ./
+RUN cargo build --release && \
+  rm src/*.rs && \
+  rm ./target/release/deps/personal_webserver*
 
-RUN cargo install --path .
+COPY ./src ./src
+COPY ./config/run ./
+RUN cargo build --release
 
-CMD ["personal-webserver"]
+FROM debian:8-slim
+
+COPY --from=build /personal-webserver/run ./
+COPY --from=build /personal-webserver/target/release/personal-webserver ./target/release/personal-webserver
+
+COPY ./static ./static
+
+CMD "./run"

@@ -1,9 +1,9 @@
 [package]
 name = "personal-webserver"
 version = "0.1.0"
-authors = ["Matt Prestlien <mprestlien@scramsystems.com>"]
+authors = ["Matt Prestlien <me@mattprestlien.com>"]
 edition = "2018"
 
 [dependencies]
-rocket = "0.4.1"
-rocket_contrib = "0.4.1"
+rocket = "0.4.2"
+rocket_contrib = "0.4.2"

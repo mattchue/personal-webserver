@@ -1,8 +1,9 @@
 body {
   position: relative;
-  background-color: rgb(112, 123, 218));
+  background-color: rgb(112, 123, 218);
   color: white !important;
   font-size: 2.5vmin !important;
+  height: 100%;
 }
 .container {
   position: absolute !important;

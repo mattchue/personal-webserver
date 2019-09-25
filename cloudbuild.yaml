@@ -61,6 +61,8 @@ steps:
         'gcr.io/personal-webserver-242817/personal-webserver',
         '--region',
         'us-central1',
+        '--platform',
+        'managed',
       ]
 images:
   - gcr.io/personal-webserver-242817/personal-webserver

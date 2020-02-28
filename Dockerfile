@@ -1,22 +1,18 @@
-FROM rust:latest as build
+FROM golang:1.14 as build
 
-RUN USER=root cargo new --bin personal-webserver
+COPY ./ /personal-webserver
+
 WORKDIR /personal-webserver
 
-COPY config/rust-toolchain Cargo.lock Cargo.toml ./
-RUN cargo build --release && \
-  rm src/*.rs && \
-  rm ./target/release/deps/personal_webserver*
+RUN make
 
-COPY ./src ./src
-COPY ./config/run ./
-RUN cargo build --release
+FROM alpine:latest as run
 
-FROM debian:8-slim as run
+COPY --from=build /personal-webserver/static /static
+COPY --from=build /personal-webserver/bin/personal_webserverd /bin/personal_webserverd
 
-COPY --from=build /personal-webserver/run ./
-COPY --from=build /personal-webserver/target/release/personal-webserver ./target/release/personal-webserver
+ENV GIN_MODE "release"
 
-COPY ./static ./static
+CMD "personal_webserverd"
 
-CMD "./run"
+EXPOSE 80

@@ -1,0 +1,15 @@
+##
+# Build docker image
+dockerize:
+  docker build -t mattprestlien/personal_webserver .
+
+##
+# Run docker container
+start-container:
+  docker rm -f personal_webserver &>/dev/null && echo 'Removed old container'
+  docker run --name personal_webserver -d -p 8080:80 mattprestlien/personal_webserver:latest
+
+##
+# Stop docker container
+stop-container:
+  docker stop personal_webserver && docker rm -f personal_webserver

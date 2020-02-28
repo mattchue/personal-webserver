@@ -5,47 +5,40 @@ on:
     branches:
     - master
 
-# Environment variables available to all jobs and steps in this workflow
 env:
-  GKE_PROJECT: ${{ secrets.GOOGLE_PROJECT_ID }}
-  GITHUB_SHA: ${{ github.sha }}
-  IMAGE: personal_webserver
-  REGISTRY_HOSTNAME: gcr.io
+  PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
+  RUN_REGION: us-central1
+  SERVICE_NAME: personal_webserver
 
 jobs:
-  setup-build-publish-deploy:
-    name: buildploy
+  setup-build-deploy:
+    name: Setup, Build, and Deploy
     runs-on: ubuntu-latest
+
     steps:
+      - name: Checkout
+        uses: actions/checkout@v1
 
-    - name: Checkout
-      uses: actions/checkout@v2
+      # Setup gcloud CLI
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '275.0.0'
+          service_account_email: ${{ secrets.GOOGLE_SA_EMAIL }}
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
 
-    # Setup gcloud CLI
-    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-      with:
-        version: '270.0.0'
-        service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-
-    # Configure docker to use the gcloud command-line tool as a credential helper
-    - run: |
-        # Set up docker to authenticate
-        # via gcloud command-line tool.
-        gcloud auth configure-docker
-      
-    # Build the Docker image
-    - name: Build
-      run: |        
-        docker build -t "$REGISTRY_HOSTNAME"/"$GKE_PROJECT"/"$IMAGE":"$GITHUB_SHA" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" \
-          --build-arg GITHUB_REF="$GITHUB_REF" .
-
-    # Push the Docker image to Google Container Registry
-    - name: Publish
-      run: |
-        docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:$GITHUB_SHA
-
-    # Run the image with Cloud Run
-    - run: |
-        # Push via gcloud CLI
-        gcloud components install beta && gcloud beta run deploy $IMAGE --quiet --image gcr.io/$GKE_PROJECT/$IMAGE --region us-central1 --platform managed
+      # Configure gcloud CLI
+      - name: gcloud Set up
+        run: |
+          gcloud config set project $PROJECT_ID
+          gcloud config set run/region $RUN_REGION
+      # Build and push image to Google Container Registry
+      - name: Build
+        run: |
+          gcloud builds submit -t gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA
+      # Deploy image to Cloud Run
+      - name: Deploy
+        run: |
+          gcloud run deploy $SERVICE_NAME \
+            --image gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA \
+            --platform managed \
+            --allow-unauthenticated

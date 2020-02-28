@@ -8,11 +8,11 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
   RUN_REGION: us-central1
-  SERVICE_NAME: personal_webserver
+  SERVICE_NAME: personal-webserver
 
 jobs:
-  setup-build-deploy:
-    name: Setup, Build, and Deploy
+  buildploy:
+    name: buildploy
     runs-on: ubuntu-latest
 
     steps:

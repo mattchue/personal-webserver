@@ -9,13 +9,12 @@ on:
 env:
   GKE_PROJECT: ${{ secrets.GOOGLE_PROJECT_ID }}
   GITHUB_SHA: ${{ github.sha }}
-  IMAGE: gke-test
+  IMAGE: personal_webserver
   REGISTRY_HOSTNAME: gcr.io
-  DEPLOYMENT_NAME: gke-test
 
 jobs:
   setup-build-publish-deploy:
-    name: Setup, Build, Publish, and Deploy
+    name: buildploy
     runs-on: ubuntu-latest
     steps:
 
@@ -45,3 +44,8 @@ jobs:
     - name: Publish
       run: |
         docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:$GITHUB_SHA
+
+    # Run the image with Cloud Run
+    - run: |
+        # Push via gcloud CLI
+        gcloud run deploy $IMAGE --image gcr.io/personal-webserver-242817/$IMAGE --region us-central1 --platform managed

@@ -4,10 +4,6 @@ body {
   color: white !important;
   font-size: 2.5vmin !important;
   height: 100%;
-  
-  @media all and (max-width: 736px) {
-    font-size: 4.5vmin;
-  }
 }
 .container {
   position: absolute !important;
@@ -18,10 +14,7 @@ body {
 .head.top {
   text-align: center;
   margin-bottom: 10px;
-  font-size: 4.5vmin;
-  @media all and (max-width: 736px) {
-    font-size: 6.5vmin;
-  }
+  font-size: 4.5vmin !important;
 }
 .head.shipped {
   text-align: center;
@@ -35,4 +28,13 @@ body {
 a {
   text-decoration: underline;
   color: white !important;
+}
+
+@media all and (max-width: 736px) {
+  body {
+    font-size: 4.5vmin !important;
+  }
+  .head.top {
+    font-size: 6.5vmin !important;
+  }
 }

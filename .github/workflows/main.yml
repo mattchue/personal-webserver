@@ -48,4 +48,4 @@ jobs:
     # Run the image with Cloud Run
     - run: |
         # Push via gcloud CLI
-        gcloud beta run deploy $IMAGE --image gcr.io/personal-webserver-242817/$IMAGE --region us-central1 --platform managed
+        gcloud beta run deploy $IMAGE --image gcr.io/personal-webserver-242817/$IMAGE --region us-central1 --platform managed --quiet

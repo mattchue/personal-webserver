@@ -1,13 +1,13 @@
-# Personal Webserver
+# personal webserver
 
-uses rust, skeleton.css, gcp build/run/storage with docker for running in the cloud.
+uses gin + skeleton.css (kinda) + gh actions paired with gcp cloud run.
 
 commit messages are not indicative of professional work and may be read at your own risk.
 
 ## Build
 
-simply run `cargo build`
+`run list`
 
 ## Developing
 
-static files are served from `/static`. for server stuff, check `/src/main.rs`.
+static files are served from `./static`. for server stuff, check `./main.go`.
